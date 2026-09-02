@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Coffee Menu, Decoded — Field Notes on Coffee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cocoa-950:#1d1108;
+    --cocoa-900:#2a190e;
+    --cocoa-800:#3f2716;
+    --milk:#f7f0e2;
+    --milk-2:#ecdfc2;
+    --cream:#fbf6ea;
+    --caramel:#ad7530;
+    --caramel-light:#cf9a55;
+    --ink:#241811;
+    --ink-soft:#5c4c3b;
+    --clay:#8a4a35;
+    --rule: rgba(36,24,17,0.14);
+    --rule-dark: rgba(247,240,226,0.16);
+    --measure: 62ch;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--milk); color:var(--ink);
+    font-family:'Work Sans', sans-serif; font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ font-family:'Fraunces', serif; font-weight:600; margin:0; letter-spacing:-0.01em; }
+  p{ margin:0 0 1.1em; max-width:var(--measure); }
+  p:last-child{ margin-bottom:0; }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; }
+  :focus-visible{ outline:2px solid var(--caramel); outline-offset:3px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  figcaption{ font-size:0.8rem; color:var(--ink-soft); margin-top:10px; font-style:italic; }
+  .dark figcaption{ color:rgba(247,240,226,0.6); }
+
+  .site-header{ padding:26px 0; border-bottom:1px solid var(--rule); }
+  .site-header .wrap{ display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .wordmark{ font-family:'Fraunces', serif; font-weight:600; font-size:1.25rem; }
+  .wordmark span{ color:var(--caramel); }
+  .wordmark small{ display:block; font-family:'Work Sans',sans-serif; font-weight:500; font-size:0.68rem; color:var(--ink-soft); letter-spacing:0.02em; }
+  nav.primary-nav ul{ list-style:none; display:flex; gap:26px; margin:0; padding:0; font-size:0.92rem; }
+  nav.primary-nav a{ text-decoration:none; color:var(--ink-soft); padding-bottom:3px; border-bottom:1px solid transparent; }
+  nav.primary-nav a:hover{ border-bottom-color:var(--caramel); color:var(--ink); }
+
+  .hero{ position:relative; background:var(--cocoa-950); color:var(--cream); overflow:hidden; }
+  .hero-media{ position:absolute; inset:0; }
+  .hero-media img{ width:100%; height:100%; object-fit:cover; opacity:0.55; }
+  .hero-media::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(100deg, rgba(29,17,8,0.97) 16%, rgba(29,17,8,0.7) 46%, rgba(29,17,8,0.3) 80%);
+  }
+  .hero-inner{ position:relative; padding:118px 0 92px; }
+  .hero-kicker{ font-size:0.95rem; color:var(--caramel-light); margin:0 0 20px; }
+  .hero h1{ font-size:clamp(2.5rem, 5vw, 4.1rem); line-height:1.05; max-width:16ch; }
+  .hero-sub{ margin-top:24px; font-size:1.13rem; max-width:46ch; color:rgba(247,240,226,0.86); }
+  .hero-meta{
+    margin-top:42px; display:flex; gap:34px; flex-wrap:wrap; font-size:0.88rem;
+    color:rgba(247,240,226,0.6); border-top:1px solid var(--rule-dark); padding-top:22px; max-width:660px;
+  }
+  .hero-meta strong{ color:var(--cream); display:block; font-family:'Fraunces', serif; font-size:1.02rem; font-weight:600; }
+
+  .facts{ background:var(--milk-2); border-bottom:1px solid var(--rule); }
+  .facts .wrap{ display:grid; grid-template-columns:repeat(3,1fr); padding:50px 32px; gap:40px; }
+  .fact + .fact{ border-left:1px solid var(--rule); padding-left:40px; }
+  .fact p.num{ font-family:'Fraunces', serif; font-size:2.3rem; font-weight:600; color:var(--caramel); margin-bottom:8px; line-height:1; }
+  .fact p.desc{ font-size:0.95rem; color:var(--ink-soft); max-width:32ch; }
+
+  section.block{ padding:96px 0; }
+  .section-head{ margin-bottom:48px; max-width:58ch; }
+  .section-head h2{ font-size:clamp(1.85rem, 3vw, 2.5rem); line-height:1.12; }
+  .section-head p{ margin-top:16px; color:var(--ink-soft); font-size:1.03rem; }
+
+  /* base / espresso intro */
+  .base .grid{ display:grid; grid-template-columns: 1fr 0.85fr; gap:60px; align-items:center; }
+  .base-copy p{ margin-bottom:1.1em; }
+  .base-trio{ display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:28px; border-top:1px solid var(--rule); }
+  .base-trio div{ padding:18px 16px 0 0; }
+  .base-trio h4{ font-size:0.98rem; margin-bottom:6px; }
+  .base-trio p{ font-size:0.88rem; color:var(--ink-soft); }
+  .base-media img{ border:1px solid var(--rule); aspect-ratio:4/5; object-fit:cover; }
+
+  /* milk family rows, alternating */
+  .milk-family{ background:var(--cream); }
+  .drink-row{ display:grid; grid-template-columns: 0.9fr 1.1fr; gap:56px; align-items:center; padding:42px 0; border-top:1px solid var(--rule); }
+  .drink-row:last-child{ border-bottom:1px solid var(--rule); }
+  .drink-row.reverse .drink-media{ order:2; }
+  .drink-row.reverse .drink-copy{ order:1; }
+  .drink-media img{ aspect-ratio:4/5; object-fit:cover; border:1px solid var(--rule); }
+  .drink-copy h3{ font-size:1.35rem; margin-bottom:6px; }
+  .drink-copy .ratio{ font-size:0.82rem; color:var(--caramel); margin-bottom:12px; }
+  .drink-copy p{ color:var(--ink-soft); font-size:0.98rem; }
+
+  /* black coffee + dessert, simpler two-col */
+  .two-col-feature .grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .two-col-feature .grid.reverse .feat-media{ order:2; }
+  .two-col-feature .grid.reverse .feat-copy{ order:1; }
+  .feat-media img{ aspect-ratio:5/4; object-fit:cover; border:1px solid var(--rule); }
+  .feat-copy h3{ font-size:1.5rem; margin-bottom:14px; }
+  .feat-copy p{ color:var(--ink-soft); font-size:1rem; }
+  .black-coffee{ background:var(--milk); }
+  .dessert{ background:var(--milk); }
+
+  /* ratio table — bold dark moment */
+  .ratios{ background:var(--cocoa-900); color:var(--cream); }
+  .ratios .section-head h2{ color:var(--cream); }
+  .ratios .section-head p{ color:rgba(247,240,226,0.66); }
+  table.ratio-table{ width:100%; border-collapse:collapse; margin-top:8px; }
+  table.ratio-table caption{ text-align:left; font-size:0.85rem; color:rgba(247,240,226,0.55); margin-bottom:18px; }
+  table.ratio-table th, table.ratio-table td{
+    text-align:left; padding:16px 18px; border-top:1px solid var(--rule-dark); font-size:0.95rem;
+  }
+  table.ratio-table thead th{ color:var(--caramel-light); font-weight:600; font-family:'Fraunces', serif; font-size:1rem; border-top:none; padding-bottom:14px; }
+  table.ratio-table tbody th{ font-weight:600; color:var(--cream); }
+  table.ratio-table td{ color:rgba(247,240,226,0.78); }
+  table.ratio-table tbody tr:last-child td, table.ratio-table tbody tr:last-child th{ border-bottom:1px solid var(--rule-dark); }
+
+  footer{ background:var(--cocoa-950); color:rgba(247,240,226,0.7); padding:64px 0 40px; }
+  footer .foot-top{ display:flex; justify-content:space-between; gap:32px; flex-wrap:wrap; padding-bottom:36px; border-bottom:1px solid var(--rule-dark); }
+  footer h2{ color:var(--cream); font-size:1.5rem; max-width:22ch; }
+  footer .foot-note{ font-size:0.9rem; max-width:34ch; }
+  footer .foot-bottom{ padding-top:26px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; font-size:0.82rem; color:rgba(247,240,226,0.42); }
+
+  @media (max-width: 880px){
+    .wrap{ padding:0 22px; }
+    section.block{ padding:64px 0; }
+    .facts .wrap{ grid-template-columns:1fr; padding:34px 22px; gap:24px; }
+    .fact + .fact{ border-left:none; padding-left:0; border-top:1px solid var(--rule); padding-top:24px; }
+    .base .grid, .drink-row, .two-col-feature .grid{ grid-template-columns:1fr; gap:28px; }
+    .drink-row.reverse .drink-media, .drink-row.reverse .drink-copy{ order:initial; }
+    .two-col-feature .grid.reverse .feat-media, .two-col-feature .grid.reverse .feat-copy{ order:initial; }
+    .base-trio{ grid-template-columns:1fr; }
+    .base-trio div{ padding:14px 0; border-bottom:1px solid var(--rule); }
+    table.ratio-table{ font-size:0.85rem; }
+    table.ratio-table th, table.ratio-table td{ padding:12px 10px; }
+    .hero-inner{ padding:76px 0 60px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="wordmark">Field Notes <span>on Coffee</span><small>the drink menu, decoded</small></div>
+    <nav class="primary-nav" aria-label="Section navigation">
+      <ul>
+        <li><a href="#base">The Base</a></li>
+        <li><a href="#milk">Milk &amp; Foam</a></li>
+        <li><a href="#black">Straight Black</a></li>
+        <li><a href="#dessert">After Dinner</a></li>
+        <li><a href="#ratios">Ratio Guide</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-media">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Caffe_Latte_at_Pulse_Cafe.jpg" alt="A caffe latte with latte art served in a glass">
+  </div>
+  <div class="hero-inner">
+    <div class="wrap">
+      <p class="hero-kicker">Same espresso, different drink every time</p>
+      <h1>What actually separates a latte from a flat white</h1>
+      <p class="hero-sub">Almost every drink on a café menu starts from the same shot of espresso — the differences come down to how much water, milk, and foam get added, and in what order.</p>
+      <div class="hero-meta">
+        <div><strong>1</strong>base ingredient behind nearly everything: espresso</div>
+        <div><strong>7</strong>drinks explained, from macchiato to affogato</div>
+        <div><strong>3</strong>variables that define a drink: milk, foam, water</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="facts">
+  <div class="wrap">
+    <div class="fact">
+      <p class="num">1:3</p>
+      <p class="desc">Roughly the espresso-to-water ratio in a classic americano — enough water to stretch the shot without losing its flavour.</p>
+    </div>
+    <div class="fact">
+      <p class="num">5mm</p>
+      <p class="desc">The thin "microfoam" layer that separates a flat white from the thicker, spoonable foam on a cappuccino.</p>
+    </div>
+    <div class="fact">
+      <p class="num">1868</p>
+      <p class="desc">Roughly when the word "macchiato" — Italian for "stained" — began describing espresso marked with a little milk.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block base" id="base">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>It all starts with the same shot</h2>
+      <p>Before milk, water, or ice gets involved, almost every drink on this list begins as espresso — just pulled slightly differently.</p>
+    </div>
+    <div class="grid">
+      <div class="base-copy">
+        <p>Espresso is made by forcing hot water through finely-ground, tightly-packed coffee at high pressure, producing a small, concentrated shot in around 25–30 seconds. Everything else on the menu is really just espresso plus something else.</p>
+        <p>Even espresso itself has variants, depending only on how much water passes through the same dose of grounds:</p>
+        <div class="base-trio">
+          <div>
+            <h4>Ristretto</h4>
+            <p>"Restricted" — less water through the same grounds, for a shorter, more concentrated, syrupy shot.</p>
+          </div>
+          <div>
+            <h4>Espresso</h4>
+            <p>The standard shot — the baseline that every other drink on this page is built from.</p>
+          </div>
+          <div>
+            <h4>Lungo</h4>
+            <p>"Long" — more water through the same grounds, for a larger, lighter, slightly more bitter shot.</p>
+          </div>
+        </div>
+      </div>
+      <div class="base-media">
+        <figure>
+          <img src="https://commons.wikimedia.org/wiki/Special:FilePath/2014_0508_Caffe_macchiato.jpg" alt="A small espresso-based drink served with a glass of water, a traditional Italian pairing">
+          <figcaption>Espresso is traditionally served with a glass of water on the side, to reset the palate.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="milk-family" id="milk">
+  <div class="wrap block">
+    <div class="section-head">
+      <h2>The milk &amp; foam family</h2>
+      <p>These drinks all combine espresso with steamed milk — the differences are entirely about proportion: how much milk, how much foam, and how thick that foam is.</p>
+    </div>
+
+    <div class="drink-row">
+      <div class="drink-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cappucino-bangalore-india.jpg" alt="A cappuccino with a thick layer of milk foam on top">
+      </div>
+      <div class="drink-copy">
+        <h3>Cappuccino</h3>
+        <p class="ratio">Roughly equal parts espresso, steamed milk, and thick milk foam</p>
+        <p>The three components sit in near-equal thirds, topped with a deep, spoonable layer of foam — sometimes dusted with cocoa. In Italy, it's culturally treated as a morning-only order, rarely drunk after a meal.</p>
+      </div>
+    </div>
+
+    <div class="drink-row reverse">
+      <div class="drink-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Latte_art.jpg" alt="Latte art poured into a cup of coffee with steamed milk">
+      </div>
+      <div class="drink-copy">
+        <h3>Latte</h3>
+        <p class="ratio">A single shot of espresso, a large volume of steamed milk, a thin layer of foam</p>
+        <p>The mildest and milkiest of the espresso drinks — mostly steamed milk, with just enough foam on top to hold a poured pattern. It's the usual canvas for latte art.</p>
+      </div>
+    </div>
+
+    <div class="drink-row">
+      <div class="drink-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Flat_white.jpg" alt="A flat white coffee with a thin layer of microfoam">
+      </div>
+      <div class="drink-copy">
+        <h3>Flat white</h3>
+        <p class="ratio">A stronger shot-to-milk ratio than a latte, with thin "microfoam" instead of thick foam</p>
+        <p>Shorter and stronger than a latte, with velvety microfoam rather than a thick foam cap — hence "flat." Café owners in both Australia and New Zealand claim its invention.</p>
+      </div>
+    </div>
+
+    <div class="drink-row reverse">
+      <div class="drink-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Caff%C3%A8_macchiato.jpg" alt="An espresso macchiato with just a small dollop of foamed milk on top">
+      </div>
+      <div class="drink-copy">
+        <h3>Macchiato</h3>
+        <p class="ratio">A shot of espresso "marked" with just a spoonful of foamed milk</p>
+        <p>The opposite ratio of a latte — almost all espresso, with only a small dollop of milk foam on top. "Macchiato" is Italian for "stained" or "marked."</p>
+      </div>
+    </div>
+
+    <div class="drink-row">
+      <div class="drink-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/White_chocolate_mocha_coffee.jpg" alt="A mocha coffee drink with chocolate and steamed milk">
+      </div>
+      <div class="drink-copy">
+        <h3>Mocha</h3>
+        <p class="ratio">A latte with chocolate syrup or cocoa added</p>
+        <p>Essentially a latte with chocolate stirred in, landing somewhere between a coffee and a dessert. The name comes from Mocha, a Yemeni port city historically central to the early coffee trade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block two-col-feature black-coffee" id="black">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The straight black family</h2>
+      <p>No milk at all — just espresso, stretched with hot water to change its strength and volume.</p>
+    </div>
+    <div class="grid">
+      <div class="feat-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Americano.jpg" alt="A cup of caffe americano, espresso diluted with hot water">
+      </div>
+      <div class="feat-copy">
+        <h3>Americano</h3>
+        <p>Hot water is added to one or two shots of espresso, usually at around a 1:3 or 1:4 ratio of espresso to water. The result keeps espresso's complex flavour but in a lighter, larger cup — close in strength to drip coffee.</p>
+        <p>Pour the water in first, and the espresso stays on top, keeping the crema visible — that version is usually called a "long black" instead.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block two-col-feature dessert" id="dessert">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>When coffee becomes dessert</h2>
+      <p>Not every espresso drink is meant to be sipped slowly through a morning — some are built for the end of a meal.</p>
+    </div>
+    <div class="grid reverse">
+      <div class="feat-media">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Affogato_al_Caffe.jpg" alt="A scoop of vanilla gelato with a hot shot of espresso poured over it, an affogato">
+      </div>
+      <div class="feat-copy">
+        <h3>Affogato</h3>
+        <p>A scoop of vanilla gelato or ice cream, "drowned" — which is what affogato means in Italian — under a hot shot of espresso poured right at the table. Part drink, part dessert, and eaten with a spoon before it melts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ratios" id="ratios">
+  <div class="wrap block">
+    <div class="section-head">
+      <h2>The ratio guide, side by side</h2>
+      <p>A rough comparison of how much espresso, milk, and foam go into each drink covered above.</p>
+    </div>
+    <table class="ratio-table">
+      <caption>Approximate proportions — actual recipes vary by café and region.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Drink</th>
+          <th scope="col">Espresso</th>
+          <th scope="col">Steamed milk</th>
+          <th scope="col">Foam</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Ristretto</th><td>1 short shot</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Espresso</th><td>1 shot</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Lungo</th><td>1 long shot</td><td>—</td><td>—</td></tr>
+        <tr><th scope="row">Macchiato</th><td>1 shot</td><td>a splash</td><td>a small dollop</td></tr>
+        <tr><th scope="row">Cappuccino</th><td>1 shot</td><td>moderate</td><td>thick layer</td></tr>
+        <tr><th scope="row">Flat white</th><td>1–2 shots</td><td>moderate</td><td>thin microfoam</td></tr>
+        <tr><th scope="row">Latte</th><td>1–2 shots</td><td>generous</td><td>thin layer</td></tr>
+        <tr><th scope="row">Mocha</th><td>1 shot + chocolate</td><td>generous</td><td>light</td></tr>
+        <tr><th scope="row">Americano</th><td>1–2 shots</td><td>hot water instead</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <h2>A field guide for the curious, not a storefront.</h2>
+      <p class="foot-note">This page exists to explain coffee drinks, not to sell them — there's nothing here to buy, and no café or brand behind it.</p>
+    </div>
+    <div class="foot-bottom">
+      <span>Field Notes on Coffee — an informational reference, part two</span>
+      <span>Photography via Wikimedia Commons contributors, used under their respective open licences</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
